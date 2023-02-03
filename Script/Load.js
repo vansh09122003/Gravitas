@@ -17,6 +17,39 @@ class Load extends Phaser.Scene{
         })
     }
 
+    create(){
+        this.anims.create({
+            key: "right",
+            frames: this.anims.generateFrameNumbers("player",{
+                start:0,
+                end:2
+            }),
+            frameRate:10,
+            repeat:-1
+        })
+
+        this.anims.create({
+            key: "left",
+            frames: this.anims.generateFrameNumbers("player",{
+                start:4,
+                end:3
+            }),
+            frameRate:10,
+            repeat:-1
+        })
+
+        this.anims.create({
+            key: "idle",
+            frames: this.anims.generateFrameNumbers("player",{
+                start:2,
+                end:2
+            }),
+            frameRate:20,
+            repeat:-1
+        })
+
+    }
+
     update(){
             this.scene.switch('Level')
     }
