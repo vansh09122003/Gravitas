@@ -14,19 +14,16 @@ class Load extends Phaser.Scene{
         this.load.spritesheet("enemy", "Assets/enemy.png", {
             frameHeight:256,
             frameWidth:256
-        })
+        });
     }
 
     create(){
         this.anims.create({
             key: "right",
-            frames: this.anims.generateFrameNumbers("player",{
-                start:0,
-                end:2
-            }),
-            frameRate:10,
-            repeat:-1
-        })
+            frames: this.anims.generateFrameNumbers("player",{start:0,end:1}),
+            frameRate:6,
+            repeat: -1
+        });
 
         this.anims.create({
             key: "left",
@@ -34,9 +31,9 @@ class Load extends Phaser.Scene{
                 start:4,
                 end:3
             }),
-            frameRate:10,
-            repeat:-1
-        })
+            frameRate:6,
+            repeat: -1
+        });
 
         this.anims.create({
             key: "idle",
@@ -44,13 +41,12 @@ class Load extends Phaser.Scene{
                 start:2,
                 end:2
             }),
-            frameRate:20,
-            repeat:-1
-        })
+            frameRate:6,
+        });
 
     }
 
     update(){
-            this.scene.switch('Level')
+        this.scene.switch('Level');
     }
 }
