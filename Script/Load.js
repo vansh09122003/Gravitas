@@ -7,7 +7,7 @@ class Load extends Phaser.Scene{
         this.load.image("background", "Assets/Background.png");
         this.load.image("block1", "Assets/Block.png");
         this.load.image("block2", "Assets/Block_stretched.png");
-        this.load.spritesheet("player", "Assets/player.png", {
+        playerSprite=this.load.spritesheet("player", "Assets/player.png", {
             frameHeight:96,
             frameWidth:52
         });

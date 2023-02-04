@@ -5,6 +5,7 @@ class Level extends Phaser.Scene{
 
   create(){
     this.gravity="y";
+    this.dir=0;
     this.background = this.add.tileSprite(0, 0, config.width, config.height, "background").setInteractive();
     this.background.setOrigin(0,0);
 
@@ -16,6 +17,8 @@ class Level extends Phaser.Scene{
 
     this.player = this.physics.add.sprite(220, 70, "player").setScale(0.85);
     this.physics.add.collider(this.player,this.platforms);
+    this.player.body.allowRotation = true;
+    this.player.setOrigin(0.5,0.5);
     this.player.setCollideWorldBounds(true);
     this.player.body.onWorldBounds = true;
     this.player.body.world.on('worldbounds',this.onBoundOut,this.player);
@@ -30,93 +33,119 @@ class Level extends Phaser.Scene{
   }
 
   update(){
-    this.movePlayerManager();
+    this.PlayerPhysics();
   }
 
   onBoundOut(){
     game.scene.start('Level');
   }
 
-  movePlayerManager(){
+  PlayerPhysics(){
 
     if(this.gravity=="y"){
-      if (this.AKey.isDown) {
-        this.player.setVelocityX(-100);
-        this.player.play("left",true);
-      } 
-      else if (this.DKey.isDown) {
-        this.player.setVelocityX(100);
-        this.player.play("right",true);
-      } 
-      else if(this.SpaceKey.isDown && this.player.body.touching.down){
-        this.player.setVelocityY(-250);
+      if(this.dir==0){
+        if (this.AKey.isDown) {
+          this.player.setVelocityX(-100);
+          this.player.play("left",true);
+        } 
+        else if (this.DKey.isDown) {
+          this.player.setVelocityX(100);
+          this.player.play("right",true);
+        } 
+        else if(this.SpaceKey.isDown && this.player.body.touching.down){
+          this.player.setVelocityY(-250);
+        }
+        else{
+          this.player.play("idle")
+          this.player.setVelocityX(0);
+        }
       }
-      else{
-        this.player.play("idle")
-        this.player.setVelocityX(0);
+      else if(this.dir==1){
+        if (this.AKey.isDown) {
+          this.player.setVelocityX(-100);
+          this.player.play("right",true);
+        } 
+        else if (this.DKey.isDown) {
+          this.player.setVelocityX(100);
+          this.player.play("left",true);
+        } 
+        else if(this.SpaceKey.isDown && this.player.body.touching.up){
+          this.player.setVelocityY(250);
+        }
+        else{
+          this.player.play("idle")
+          this.player.setVelocityX(0);
+        }
       }
     }
     else if(this.gravity=="x"){
-      if (this.AKey.isDown) {
-        this.player.setVelocityY(-100);
-        this.player.play("right",true);
-      } 
-      else if (this.DKey.isDown) {
-        this.player.setVelocityY(100);
-        this.player.play("left",true);
-      } 
-      else if(this.SpaceKey.isDown && this.player.body.touching.down){
-        this.player.setVelocityX(-250);
+      if(this.dir==0){
+        if (this.WKey.isDown) {
+          this.player.setVelocityY(-100);
+          this.player.play("right",true);
+        } 
+        else if (this.SKey.isDown) {
+          this.player.setVelocityY(100);
+          this.player.play("left",true);
+        } 
+        else if(this.SpaceKey.isDown && this.player.body.touching.right){
+          this.player.setVelocityX(-250);
+        }
+        else{
+          this.player.play("idle");
+          this.player.setVelocityY(0);
+        }
       }
-      else{
-        this.player.play("idle");
-        this.player.setVelocityY(0);
+      else if(this.dir==1){
+        if (this.WKey.isDown) {
+          this.player.setVelocityY(-100);
+          this.player.play("left",true);
+        } 
+        else if (this.SKey.isDown) {
+          this.player.setVelocityY(100);
+          this.player.play("right",true);
+        } 
+        else if(this.SpaceKey.isDown && this.player.body.touching.left){
+          this.player.setVelocityX(250);
+        }
+        else{
+          this.player.play("idle");
+          this.player.setVelocityY(0);
+        }
       }
     }
-    /*if (this.AKey.isDown) {
-      this.player.setVelocityX(-100);
-      this.player.play("left",true);
-    } 
-    else if (this.DKey.isDown) {
-      this.player.setVelocityX(100);
-      this.player.play("right",true);
-    } 
-    else if(this.SpaceKey.isDown && this.player.body.touching.down){
-      this.player.setVelocityY(-250);
-    }
-    else{
-      if(this.gravity=="y"){
-        this.player.setVelocityX(0);
-      }
-      else if(this.gravity=="x"){
-        this.player.setVelocityY(0);
-      }
-      this.player.play("idle")
-    }*/
 
     if(this.AKey.isDown && this.SpaceKey.isDown){
       this.player.setGravityY(0);
       this.player.setGravityX(300);
-      this.player.angle=-90;
+      this.player.setAngle(-90);
+      this.player.setSize(96,52);
       this.gravity="x";
+      this.dir=0;
     }
     else if(this.DKey.isDown && this.SpaceKey.isDown){
       this.player.setGravityY(0);
       this.player.setGravityX(-300);
       this.player.angle=90;
+      this.player.setSize(96,52);
       this.gravity="x";
+      this.dir=1;
     }
     else if(this.WKey.isDown && this.SpaceKey.isDown){
       this.player.setGravityY(300);
       this.player.setGravityX(0);
       this.player.angle=0;
+      this.player.setSize(52,96);
       this.gravity="y";
+      this.dir=0;
     }
     else if(this.SKey.isDown && this.SpaceKey.isDown){
       this.player.setGravityY(-300);
       this.player.setGravityX(0);
       this.player.angle=180;
+      this.player.setSize(52,96);
       this.gravity="y";
+      this.dir=1;
     }
   }
 }

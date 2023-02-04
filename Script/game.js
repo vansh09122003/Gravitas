@@ -9,4 +9,5 @@ var config = {
     },
     scene: [Load, Level],
 }
+var playerSprite;
 var game = new Phaser.Game(config);
