@@ -10,4 +10,8 @@ var config = {
     scene: [Load, Level],
 }
 var playerSprite;
+var startHoleAnim;
+var playBtn,pauseBtn,reloadBtn,menuBtn;
+var inGameMenuBg;
+var lvl;
 var game = new Phaser.Game(config);

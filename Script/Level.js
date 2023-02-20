@@ -4,16 +4,19 @@ class Level extends Phaser.Scene{
   }
 
   create(){
+
+    lvl=1;
+
     this.gravity="y";
     this.dir=0;
     this.background = this.add.tileSprite(0, 0, config.width, config.height, "background").setInteractive();
     this.background.setOrigin(0,0);
 
     this.platforms = this.physics.add.staticGroup();
-    this.platforms.create(600, 150, 'block2').setScale(2.75,0.65).refreshBody().setInteractive();
-    this.platforms.create(960, 360, 'block2').setScale(1.2, 0.65).refreshBody().setInteractive();
-    this.platforms.create(600, 700, 'block2').setScale(2.2, 1).refreshBody().setInteractive();
-    this.platforms.create(220, 700, 'block2').setScale(0.35, 4.7).refreshBody().setInteractive();
+    this.platforms.create(600, 150, 'block2').setScale(2.75,0.65).refreshBody();
+    this.platforms.create(960, 360, 'block2').setScale(1.2, 0.65).refreshBody();
+    this.platforms.create(600, 700, 'block2').setScale(2.2, 1).refreshBody();
+    this.platforms.create(220, 700, 'block2').setScale(0.35, 4.7).refreshBody();
 
     this.player = this.physics.add.sprite(220, 70, "player").setScale(0.85);
     this.physics.add.collider(this.player,this.platforms);
@@ -25,6 +28,21 @@ class Level extends Phaser.Scene{
     this.player.setBounce(0);
     this.player.setGravityY(300);
 
+    pauseBtn=this.add.image(1230,50,"pause").setScale(0.7).setInteractive();
+    pauseBtn.on('pointerdown',this.onPause);
+
+    inGameMenuBg=this.add.image(640,360,"inGameMenu").setScale(1.3);
+    inGameMenuBg.visible=false;
+    reloadBtn=this.add.image(640,360,"reload").setScale(0.7).setInteractive();
+    reloadBtn.on('pointerdown',this.onReload);
+    reloadBtn.visible=false;
+    playBtn=this.add.image(500,360,"play").setScale(0.7).setInteractive();
+    playBtn.on('pointerdown',this.onPlay);
+    playBtn.visible=false;
+    menuBtn=this.add.image(780,360,"menu").setScale(0.7).setInteractive();
+    menuBtn.on('pointerdown',this.onMenu);
+    menuBtn.visible=false;
+
     this.WKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
     this.AKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.SKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
@@ -32,15 +50,41 @@ class Level extends Phaser.Scene{
     this.SpaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);        
   }
 
+  onPause(){
+    inGameMenuBg.visible=true;
+    reloadBtn.visible=true;
+    menuBtn.visible=true;
+    playBtn.visible=true;
+    pauseBtn.visible=false;
+    game.scene.pause("Level"+lvl);
+  }
+  onPlay(){
+    inGameMenuBg.visible=false;
+    reloadBtn.visible=false;
+    menuBtn.visible=false;
+    playBtn.visible=false;
+    pauseBtn.visible=true;
+    game.scene.resume("Level"+lvl);
+  }
+  onReload(){
+    this.onPlay();
+    game.scene.start("Level"+lvl);
+  }
+  onMenu(){
+    this.onPlay();
+    game.scene.stop("Level"+lvl);
+    game.scene.start("Menu");
+  }
+
   update(){
-    this.PlayerPhysics();
+    this.playerPhysics();
   }
 
   onBoundOut(){
-    game.scene.start('Level');
+    this.onReload();
   }
 
-  PlayerPhysics(){
+  playerPhysics(){
 
     if(this.gravity=="y"){
       if(this.dir==0){
