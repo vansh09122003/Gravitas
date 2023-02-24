@@ -4,13 +4,12 @@ var config = {
     physics: {
         default: "arcade",
         arcade: {
-            debug: false
+            debug: true
         }
     },
-    scene: [Load, Level],
+    scene: [Load, StartScreen, Level1, Level2,Level3,Level4, Level5, Level6, Level9, Level10],
 }
 var playerSprite;
-var startHoleAnim;
 var playBtn,pauseBtn,reloadBtn,menuBtn;
 var inGameMenuBg;
 var lvl;
