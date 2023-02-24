@@ -1,6 +1,6 @@
 class Level1 extends Phaser.Scene{
   constructor(){
-    super('Level')
+    super('Level1')
   }
 
   create(){
@@ -9,6 +9,7 @@ class Level1 extends Phaser.Scene{
 
     this.gravity="y";
     this.dir=0;
+    
     this.background = this.add.tileSprite(0, 0, config.width, config.height, 'background').setInteractive();
     this.background.setOrigin(0,0);
 
@@ -38,9 +39,9 @@ class Level1 extends Phaser.Scene{
     this.warmhole2 = this.physics.add.sprite(1210, 370, 'warmhole').setScale(0.25);
 
     this.enemies = this.physics.add.group();
-    this.enemies.create(900, 80, 'enemy').setScale(0.5);
-    this.enemies.create(950, 290, 'enemy').setScale(0.5);
-    this.enemies.create(810, 430, 'enemy').setScale(0.5).flipY = true;
+    this.enemies.create(900, 70, 'enemy').setScale(0.5);
+    this.enemies.create(950, 280, 'enemy').setScale(0.5);
+    this.enemies.create(810, 440, 'enemy').setScale(0.5).flipY = true;
 
     this.player.alpha = 0.3;
     this.player.body.enable = false;
@@ -148,6 +149,7 @@ class Level1 extends Phaser.Scene{
     this.Text1.visible = true;
     this.player.body.enable = false;
     this.player.visible = false;
+    this.scene.switch('Level2')
   }
 
   onBoundOut(){
