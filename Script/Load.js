@@ -11,7 +11,7 @@ class Load extends Phaser.Scene{
         this.load.image("play","Assets/UI/Play.png");
         this.load.image("pause","Assets/UI/Pause.png");
         this.load.image("menu","Assets/UI/Menu.png");
-        this.load.image("reload","Assets/UI/Reload.png");
+        this.load.image("reload","Assets/UI/reload.png");
         this.load.image("inGameMenu","Assets/UI/In_Game_Menu.png");
         this.load.image("uiButtons","Assets/UI/UI_Buttons.png");
         playerSprite=this.load.spritesheet("player", "Assets/player.png", {
