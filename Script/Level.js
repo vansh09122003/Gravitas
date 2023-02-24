@@ -67,11 +67,19 @@ class Level extends Phaser.Scene{
     game.scene.resume("Level"+lvl);
   }
   onReload(){
-    this.onPlay();
+    inGameMenuBg.visible=false;
+    reloadBtn.visible=false;
+    menuBtn.visible=false;
+    playBtn.visible=false;
+    pauseBtn.visible=true;
     game.scene.start("Level"+lvl);
   }
   onMenu(){
-    this.onPlay();
+    inGameMenuBg.visible=false;
+    reloadBtn.visible=false;
+    menuBtn.visible=false;
+    playBtn.visible=false;
+    pauseBtn.visible=true;
     game.scene.stop("Level"+lvl);
     game.scene.start("Menu");
   }
