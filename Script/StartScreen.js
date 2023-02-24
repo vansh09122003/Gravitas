@@ -22,7 +22,7 @@ class StartScreen extends Phaser.Scene{
 
     update(time){
         if(time > 5000){
-            this.scene.switch("Level1");
+            this.scene.switch("Menu");
         }
     }
 }

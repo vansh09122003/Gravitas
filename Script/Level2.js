@@ -44,17 +44,7 @@ class Level2 extends Phaser.Scene{
         this.enemies.create(1115, 110, 'enemy').setScale(0.5);
         this.enemies.create(1000, 320, 'enemy').setScale(0.5);
         this.enemies.create(650, 450, 'enemy').setScale(0.5).flipY = true;
-    
-        
-    
-        this.physics.add.overlap(this.player, this.enemies, this.gameOut, null, this);
-        this.physics.add.overlap(this.player, this.warmhole2, this.nextLevel, null, this);
-    
-        this.Text1 = this.add.text(250, 20, "Level completed Scene load", {
-              font: "35px Arial",
-              fill: "white"
-            });
-        this.Text1.visible = false;
+
         this.player.alpha = 0.3;
     
         this.warmhole.alpha = 1;
@@ -80,44 +70,46 @@ class Level2 extends Phaser.Scene{
             })
           },
           callbackScope: this
-        });    
+        });  
+        
+    this.physics.add.overlap(this.player, this.enemies, this.gameOut, null, this);
+    this.physics.add.overlap(this.player, this.warmhole2, this.nextLevel, null, this);
+
+    pauseBtn=this.add.image(1230,50,"pause").setScale(0.7).setInteractive();
+    pauseBtn.on('pointerdown',this.onPause);
+
+    inGameMenuBg=this.add.image(640,360,"inGameMenu").setScale(1.3);
+    inGameMenuBg.visible=false;
+    reloadBtn=this.add.image(750,360,"reload").setScale(0.9).setInteractive();
+    reloadBtn.on('pointerdown',this.onReload);
+    reloadBtn.visible=false;
+    playBtn=this.add.image(500,360,"play").setScale(0.9).setInteractive();
+    playBtn.on('pointerdown',this.onPlay);
+    playBtn.visible=false;
 
     }
 
-    
-  onPause(){
-    inGameMenuBg.visible=true;
-    reloadBtn.visible=true;
-    menuBtn.visible=true;
-    playBtn.visible=true;
-    pauseBtn.visible=false;
-    game.scene.pause("Level"+lvl);
-  }
-  onPlay(){
-    inGameMenuBg.visible=false;
-    reloadBtn.visible=false;
-    menuBtn.visible=false;
-    playBtn.visible=false;
-    pauseBtn.visible=true;
-    game.scene.resume("Level"+lvl);
-  }
-  onReload(){
-    inGameMenuBg.visible=false;
-    reloadBtn.visible=false;
-    menuBtn.visible=false;
-    playBtn.visible=false;
-    pauseBtn.visible=true;
-    game.scene.start("Level"+lvl);
-  }
-  onMenu(){
-    inGameMenuBg.visible=false;
-    reloadBtn.visible=false;
-    menuBtn.visible=false;
-    playBtn.visible=false;
-    pauseBtn.visible=true;
-    game.scene.stop("Level"+lvl);
-    game.scene.start("Menu");
-  }
+    onPause(){
+      inGameMenuBg.visible=true;
+      reloadBtn.visible=true;
+      playBtn.visible=true;
+      pauseBtn.visible=false;
+      game.scene.pause("Level"+lvl);
+    }
+    onPlay(){
+      inGameMenuBg.visible=false;
+      reloadBtn.visible=false;
+      playBtn.visible=false;
+      pauseBtn.visible=true;
+      game.scene.resume("Level"+lvl);
+    }
+    onReload(){
+      inGameMenuBg.visible=false;
+      reloadBtn.visible=false;
+      playBtn.visible=false;
+      pauseBtn.visible=true;
+      game.scene.start("Level2");
+    }
 
 
   update(){
@@ -133,9 +125,9 @@ class Level2 extends Phaser.Scene{
   }
 
   nextLevel(player,warmhole){
-    this.Text1.visible = true;
     this.player.body.enable = false;
     this.player.visible = false;
+    this.scene.switch('Level3')
   }
 
   onBoundOut(){

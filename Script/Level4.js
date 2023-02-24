@@ -33,6 +33,57 @@ class Level4 extends Phaser.Scene {
         this.SKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         this.DKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         this.SpaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        this.WKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        this.AKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.SKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.DKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.SpaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        this.warmhole = this.physics.add.sprite(220, 70, 'warmhole').setScale(0);
+        this.warmhole2 = this.physics.add.sprite(1100, 200, 'warmhole').setScale(0.25);
+
+        this.warmhole.alpha = 1;
+        var tween = this.tweens.add({
+            targets: this.warmhole,
+            scale: 0.25,
+            ease: 'Linear',
+            duration: 1000,
+            repeat: 0,
+            onComplete: function() {
+                this.player.alpha = 1;
+                this.player.body.enable = true;
+
+                var tween2 = this.tweens.add({
+                    targets: this.warmhole,
+                    scale: 0,
+                    ease: 'Linear',
+                    duartion: 1000,
+                    reapeat: 0,
+
+                    onComplete: function() {
+                        tween.stop();
+                    }
+                })
+            },
+            callbackScope: this,
+        });
+
+        this.physics.add.overlap(this.player, this.enemies, this.gameOut, null, this);
+        this.physics.add.overlap(this.player, this.warmhole2, this.nextLevel, null, this);
+    
+        pauseBtn=this.add.image(1230,50,"pause").setScale(0.7).setInteractive();
+        pauseBtn.on('pointerdown',this.onPause);
+    
+        inGameMenuBg=this.add.image(640,360,"inGameMenu").setScale(1.3);
+        inGameMenuBg.visible=false;
+        reloadBtn=this.add.image(750,360,"reload").setScale(0.9).setInteractive();
+        reloadBtn.on('pointerdown',this.onReload);
+        reloadBtn.visible=false;
+        playBtn=this.add.image(500,360,"play").setScale(0.9).setInteractive();
+        playBtn.on('pointerdown',this.onPlay);
+        playBtn.visible=false;
+
     }
 
     onBoundOut() {
@@ -42,7 +93,6 @@ class Level4 extends Phaser.Scene {
   onPause(){
     inGameMenuBg.visible=true;
     reloadBtn.visible=true;
-    menuBtn.visible=true;
     playBtn.visible=true;
     pauseBtn.visible=false;
     game.scene.pause("Level"+lvl);
@@ -50,7 +100,6 @@ class Level4 extends Phaser.Scene {
   onPlay(){
     inGameMenuBg.visible=false;
     reloadBtn.visible=false;
-    menuBtn.visible=false;
     playBtn.visible=false;
     pauseBtn.visible=true;
     game.scene.resume("Level"+lvl);
@@ -58,21 +107,10 @@ class Level4 extends Phaser.Scene {
   onReload(){
     inGameMenuBg.visible=false;
     reloadBtn.visible=false;
-    menuBtn.visible=false;
     playBtn.visible=false;
     pauseBtn.visible=true;
-    game.scene.start("Level"+lvl);
+    game.scene.start("Level4");
   }
-  onMenu(){
-    inGameMenuBg.visible=false;
-    reloadBtn.visible=false;
-    menuBtn.visible=false;
-    playBtn.visible=false;
-    pauseBtn.visible=true;
-    game.scene.stop("Level"+lvl);
-    game.scene.start("Menu");
-  }
-
 
   update(){
     this.PlayerPhysics();
@@ -87,7 +125,7 @@ class Level4 extends Phaser.Scene {
   }
 
   nextLevel(player,warmhole){
-    this.Text1.visible = true;
+    game.scene.start("Level5");
     this.player.body.enable = false;
     this.player.visible = false;
   }
