@@ -39,6 +39,9 @@ class Level8 extends Phaser.Scene {
         this.player.setBounce(0);
         this.player.setGravityY(300);
 
+        this.enemies = this.physics.add.group();
+        this.enemies.create(570, 490, 'enemy').setScale(0.5).setAngle(90);
+
         this.WKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.AKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         this.SKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
